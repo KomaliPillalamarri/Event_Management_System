@@ -66,4 +66,16 @@ public class Attendance {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "Attendance{" +
+                "attendanceId='" + attendanceId + '\'' +
+                ", userId=" + userId +
+                ", event=" + event +
+                ", date='" + date + '\'' +
+                ", status='" + status + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

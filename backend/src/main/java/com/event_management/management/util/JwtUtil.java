@@ -7,10 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
 import java.security.Signature;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JwtUtil {
@@ -46,6 +43,18 @@ public class JwtUtil {
 
     public String extractRole(String token) {
         return extractClaims(token).get("role", String.class);
+    }
+
+    // Extract roles from JWT Token
+    public String extractRoles(String token) {
+        Claims claims = extractClaims(token);
+        System.out.println(claims);
+        // Extract the "role" field directly as a String
+        String role = (String) claims.get("role");
+        if (role != null && !role.startsWith("ROLE_")) {
+            return "ROLE_" + role.toUpperCase(); // Ensure proper format
+        }
+        return role;
     }
 
     public boolean isTokenValid(String token,String username){

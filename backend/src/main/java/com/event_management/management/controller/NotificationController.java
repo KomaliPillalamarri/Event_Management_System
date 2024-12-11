@@ -27,10 +27,10 @@ public class NotificationController {
         }
     }
 
-    @GetMapping("/{empId}")
-    public ResponseEntity<Object> getEmpNotification(@PathVariable String empId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<Object> getNotification(@PathVariable String userId) {
         try{
-            List<Notification> data = notificationService.getNotificationForEmployee(empId);
+            List<Notification> data = notificationService.getNotification(userId);
             return ResponseHelper.createResponse(HttpStatus.OK,"Notification retrieved successfully",data,null);
         }catch (Exception e){
             return ResponseHelper.createErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage(),false,null);
@@ -56,14 +56,4 @@ public class NotificationController {
             return ResponseHelper.createErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage(),false,null);
         }
     }
-
-//    @GetMapping("/{userId}/all")
-//    public ResponseEntity<Object> getAllNotifications(@PathVariable String userId) {
-//        try{
-//            List<Notification> notifications = notificationService.getNotifications(userId);
-//            return ResponseHelper.createResponse(HttpStatus.OK,"Notification retrieved successfully",notifications,null);
-//        }catch (Exception e){
-//            return ResponseHelper.createErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage(),false,null);
-//        }
-//    }
 }

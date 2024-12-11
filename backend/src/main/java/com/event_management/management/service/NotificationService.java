@@ -18,7 +18,7 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
-    public List<Notification> getNotificationForEmployee(String empId) {
+    public List<Notification> getNotification(String empId) {
         List<Notification> notifications = notificationRepository
                 .findByUserId(empId)
                 .stream().filter(notification -> !notification.isReadStatus())

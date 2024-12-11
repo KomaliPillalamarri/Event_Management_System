@@ -1,68 +1,81 @@
-<div class="relative bg-slate-200 shadow-xl rounded-lg overflow-hidden my-6 max-h-[280px] min-h-[280px] min-w-[320px] max-w-[380px]">
-  <button 
+<div class="relative bg-white shadow-lg rounded-xl overflow-hidden my-6 max-w-[380px] w-full h-[380px]">
+  <!-- View Attendees Button -->
+  <!-- <button 
     *ngIf="displayAttendeesButton"
     (click)="viewAttendees()" 
-    class="absolute top-3 right-3 bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 text-xs font-bold rounded-full shadow-md">
+    class="absolute top-4 right-4 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 text-xs font-semibold rounded-full shadow-md focus:outline-none">
     View Attendees
-  </button>
+  </button> -->
 
-  <div class="p-5 h-full w-full flex flex-col mt-4 text-black">
-    <h5 class="text-2xl font-bold  mb-2 truncate">{{ event.name }}</h5>
+  <!-- Event Content -->
+  <div class="p-6 h-full w-full flex flex-col justify-between">
+    <!-- Event Title -->
+    <h5 class="text-2xl font-bold text-gray-800 mb-3 truncate">{{ event.name }}</h5>
 
-    <p class=" text-opacity-90 mb-4 text-sm truncate">{{ event.description }}</p>
+    <!-- Event Description -->
+    <p class="text-sm text-gray-600 mb-4 truncate" [title]="event.description">{{ event.description }}</p>
 
+    <!-- Event Category -->
     <div class="flex gap-2 items-center mb-3">
-      <label class=" text-opacity-80 text-sm">Category:</label>
-      <p *ngIf="event.category" class=" text-sm font-semibold">
+      <span class="text-sm text-gray-600">Category:</span>
+      <p *ngIf="event.category" class="text-sm font-semibold text-gray-800">
         {{ event.category.name }}
       </p>
     </div>
 
-    <p class=" text-opacity-80 text-sm mb-2">
-      <strong>Location:</strong> {{ event.location }}
+    <!-- Event Location -->
+    <p class="text-sm text-gray-600 mb-3">
+      <strong class="text-gray-800">Location:</strong> {{ event.location }}
     </p>
 
-    <p *ngIf="event.date" class=" text-opacity-80 text-sm mb-2">
-      <strong>Date:</strong> {{ event.date | date }}
+    <!-- Event Date -->
+    <p *ngIf="event.date" class="text-sm text-gray-600 mb-4">
+      <strong class="text-gray-800">Date:</strong> {{ event.date | date }}
     </p>
 
+    <!-- Registration Status -->
     <div *ngIf="isRegistered(event.eventId); else registerButton">
       <p class="text-green-600 text-lg font-semibold">
         You are registered for this event.
       </p>
     </div>
 
+    <!-- Register Button (if not registered) -->
     <ng-template #registerButton>
-      <div class="flex justify-between">
+      <div class="flex gap-4 mt-auto">
         <button 
-        (click)="onRegister()" 
-        class="mt-auto bg-pink-500  py-2 px-4 rounded-lg hover:bg-pink-600 transition-all">
-        Register
-        </button>
-
-        <button (click)="openCalendarModal(event)" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-          Add to Calendar
+          (click)="onRegister()" 
+          class="bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition-all w-full">
+          Register
         </button>
       </div>
       
+      <!-- Add to Calendar Button -->
+      <button 
+        (click)="openCalendarModal(event)" 
+        class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all w-full">
+        Add to Calendar
+      </button>
     </ng-template>
 
-    <div class="mt-4 text-center">
+    <!-- Feedback Section -->
+    <div class="mt-6 text-center">
       <app-feedback [eventId]="event.eventId"></app-feedback>
     </div>
   </div>
 </div>
 
+<!-- Calendar Modal -->
 <div *ngIf="isCalendarModalVisible" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="bg-white rounded-lg shadow-lg p-4 w-1/3 max-h-[80%] overflow-y-auto">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-[360px] max-h-[80%] overflow-y-auto">
     <h3 class="text-xl font-semibold mb-4">Add Event to Calendar</h3>
     
-    <div class="flex items-center justify-center gap-8 mb-2">
-      <button (click)="addToGoogleCalendar()" class="text-red-500">
+    <div class="flex items-center justify-center gap-6 mb-4">
+      <button (click)="addToGoogleCalendar()" class="text-red-500 hover:text-red-600">
         <i class="fab fa-google fa-2x"></i>
       </button>
       
-      <button (click)="addToOutlookCalendar()" class="text-blue-500">
+      <button (click)="addToOutlookCalendar()" class="text-blue-500 hover:text-blue-600">
         <i class="fab fa-microsoft fa-2x"></i>
       </button>
     </div>
@@ -73,10 +86,13 @@
   </div>
 </div>
 
+<!-- Attendees Modal -->
 <div *ngIf="attendeesModalVisible" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-1/3 max-h-[80%] overflow-y-auto">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-[360px] max-h-[80%] overflow-y-auto">
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Attendees</h3>
-    <button (click)="downloadAttendees(event.eventId)" class="btn btn-secondary">Download List</button>
+    <button (click)="downloadAttendees(event.eventId)" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 mb-4">
+      Download List
+    </button>
     <ul>
       <li *ngFor="let attendee of attandeesData" class="border-b p-3 text-gray-700">
         {{ attendee.userId.username }} ({{ attendee.userId.email }})

@@ -18,7 +18,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 export class HomeComponent implements OnInit {
 
   events: any[] = [];
-  registeredEvents: any[] = []
+  // registeredEvents: any[] = []
   searchQuery:string = '';
   currentUserId:string | null = null;
   notifications:any[] = []
@@ -34,23 +34,25 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.loadEvents();
-    if(this.authService.isLoggedIn){
-        this.loadRegisteredEvents()
-    }
-    this.currentUserId = this.authService.currentUser.userId
+    // if(this.authService.isLoggedIn){
+    //     this.loadRegisteredEvents()
+    // }
+    this.currentUserId = this.authService?.currentUser?.userId
   }
 
   async loadEvents(){
     try{
       const res = await this.eventService.getEvents();
-      this.events = res.data.map((event:any) => ({
+      this.events = res.data.filter((event:any) => event.maxRegistrations > event.registeredUserIds.length && event.visibility === "public")
+      .map((event:any) => ({
         name: event.name,
         description: event.description,
         category: event.category,
         location: event.location,
         eventId: event.eventId,
         registeredUserIds:event.registeredUserIds || '-',
-        visibility: String(event.visibility).toLowerCase()
+        visibility: String(event.visibility).toLowerCase(),
+        date: event.date
       }));
       console.log(this.events);
     }catch(e){
@@ -80,11 +82,19 @@ export class HomeComponent implements OnInit {
       if(this.authService.isLoggedIn){
         const payload = {
           eventId: event.eventId,
-          userId: this.authService.currentUser.userId,
+          userId: this.authService.currentUser?.userId,
           status: event.status,
           registrationDate: new Date,
         }
+
+        const notificationPayload = {
+          userId: '675959845e98de373758f529',
+          message: 'Event registered',
+          type: "EVENT_REGISTRATION",
+          dateSent: new Date()
+        }
         const res = await this.registrationService.registration(payload);
+        this.notificationService.saveNotification(notificationPayload)
         this.events = res.data;
         console.log(this.events);
         this.toastr.success("Registered successfully")
@@ -101,16 +111,16 @@ export class HomeComponent implements OnInit {
     this.toastr.success(messsage)
   }
 
-  async loadRegisteredEvents() {
-    try {
-      const userId = this.authService.currentUser.userId;
-      const res = await this.registrationService.getUserRegistrations(userId);
-      this.registeredEvents = res.data || []; 
-      console.log('Registered events:', this.registeredEvents);
-    } catch (e) {
-      console.error('Error loading user registrations:', e);
-    }
-  }
+  // async loadRegisteredEvents() {
+  //   try {
+  //     const userId = this.authService.currentUser.userId;
+  //     const res = await this.registrationService.getUserRegistrations(userId);
+  //     this.registeredEvents = res.data || []; 
+  //     console.log('Registered events:', this.registeredEvents);
+  //   } catch (e) {
+  //     console.error('Error loading user registrations:', e);
+  //   }
+  // }
 
   async loadNotifications(){
     try{

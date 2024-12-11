@@ -29,7 +29,11 @@ public class AttendanceService {
             attendance.setTimestamp(LocalDateTime.now());
             User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
             attendance.setUserId(user);
-            return attendanceRepository.save(attendance);
+            System.out.println(attendance.toString());
+            attendance.setStatus(attendance.getStatus());
+            Attendance savedAttendance = attendanceRepository.save(attendance);
+            System.out.println(savedAttendance.toString());
+            return savedAttendance;
         }catch (Exception e){
             throw e;
         }

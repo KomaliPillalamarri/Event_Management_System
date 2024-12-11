@@ -28,6 +28,7 @@ export class RegistrationsComponent implements OnInit {
   async loadRegistrations(){
     try{
       const res = await this.registrationService.getRegistrartions();
+      console.log(res.data);
       this.registrations = res.data.map((reg:any) => ({
         eventName: reg.eventId?.name || '-',
         name: reg.userId.username || '-',

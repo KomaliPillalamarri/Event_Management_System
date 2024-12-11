@@ -48,4 +48,7 @@ public class AuthService {
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
+    public User getUserByUsername(String userId){
+        return userRepository.findByUsername(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

@@ -9,7 +9,7 @@ import { FeedbackComponent } from "../feedback/feedback.component";
 
 @Component({
   selector: 'app-event-card',
-  imports: [CommonModule, FeedbackComponent],
+  imports: [CommonModule, FeedbackComponent,NgIf],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css'
 })
@@ -35,6 +35,8 @@ export class EventCardComponent implements OnInit{
       if(this.event.registeredUserIds.length > 0 && this.event.visibility === 'public'){
         this.displayAttendeesButton = true
       }
+
+      console.log(this.event);
   }
 
   openCalendarModal(event: any) {

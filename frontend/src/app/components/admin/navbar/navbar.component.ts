@@ -3,11 +3,12 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgModel } from '@angular/forms';
+import { NotificationsComponent } from '../../notifications/notifications.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink,NotificationsComponent],
   providers: [NgModel],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -19,6 +20,7 @@ export class NavbarComponent {
   showDropdown = false; 
   isAdmin:boolean = false;
   email:string | null = null;
+  notifications: any[] = []
 
   routes = [
     { 

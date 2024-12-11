@@ -27,7 +27,7 @@ export class FeedbackComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.userId = this.authService.currentUser.userId
+    this.userId = this.authService?.currentUser?.userId
   }
 
   async submitFeedback() {

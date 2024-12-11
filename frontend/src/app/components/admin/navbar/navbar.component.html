@@ -2,7 +2,12 @@
   <div class="flex flex-col justify-between p-4 h-full">
     <div>
       <div class="mb-8">
-        <span class="text-2xl font-bold">Admin Management</span>
+        <span class="text-2xl font-bold flex items-center gap-8">
+          Admin Management
+          <div class="w-8 h-8">
+            <app-notifications [notifications]="notifications"></app-notifications>
+          </div>
+        </span>
 
         <button
         class="absolute top-4 right-4 text-gray-600 hover:text-blue-600"

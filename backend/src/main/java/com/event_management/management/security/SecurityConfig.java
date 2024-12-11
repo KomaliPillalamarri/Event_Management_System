@@ -19,12 +19,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,JwtRequestFilter jwtRequestFilter) throws Exception {
         try{
+            System.out.println(http);
             http.csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(
                             auth -> auth
-                                    .requestMatchers("/api/auth/**").permitAll()
-//                                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                    .requestMatchers("/api/user/**").hasRole("USER")
+                                    .requestMatchers("http://localhost:4200/api/auth/**").permitAll()
+                                    .requestMatchers("http://localhost:4200/api/admin/**").hasRole("ADMIN")
                                     .anyRequest().permitAll()
                     )
                     .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

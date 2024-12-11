@@ -1,10 +1,8 @@
-package com.event_management.management.controller;
+package com.event_management.management.controller.admin;
 
 import com.event_management.management.helpers.ResponseHelper;
-import com.event_management.management.model.Event;
 import com.event_management.management.model.EventCategory;
 import com.event_management.management.service.EventCategoryService;
-import com.event_management.management.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

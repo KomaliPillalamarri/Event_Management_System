@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/api/admin/events")
+//@CrossOrigin("*")
 public class AdminEventController {
     @Autowired
     private EventService eventService;
